@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# TODO: po nasazení domény doplnit Sitemap
+# Sitemap: https://TODO-domena.cz/sitemap.xml

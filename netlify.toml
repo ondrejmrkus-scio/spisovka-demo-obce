@@ -1,0 +1,24 @@
+# Netlify — statický web, žádný build krok není nutný.
+# (css/styles.css je už vygenerované a commitnuté. Pro regeneraci viz README.)
+
+[build]
+  publish = "."
+  command = ""
+
+# Dlouhá cache pro fonty (hash v názvu není, ale mění se zřídka)
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+# ─────────────────────────────────────────────────────────────────
+# VARIANTA B — Netlify Forms (sběr leadů bez backendu):
+# 1) V index.html k <form> přidej atributy:
+#       name="lead" method="POST" data-netlify="true"
+#    a skrytý input:  <input type="hidden" name="form-name" value="lead" />
+# 2) Aby Netlify formulář při buildu zaregistroval, přidej do repo
+#    statickou kopii formuláře (např. v index.html stačí výše uvedené atributy).
+# 3) V js/form.js přepni odeslání na URL-encoded POST na "/"
+#    (návod a snippet jsou v README → Napojení formuláře, varianta B).
+# Leady pak najdeš v Netlify: Forms.
+# ─────────────────────────────────────────────────────────────────

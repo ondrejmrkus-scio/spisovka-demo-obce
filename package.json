@@ -1,0 +1,15 @@
+{
+  "name": "spisovka-web-obce",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Landing page pro Spisovku — elektronická spisová služba pro obce I. typu a jejich organizace od Scio.",
+  "scripts": {
+    "build": "tailwindcss -i ./src/input.css -o ./css/styles.css --minify",
+    "watch": "tailwindcss -i ./src/input.css -o ./css/styles.css --watch",
+    "dev": "npx serve ."
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

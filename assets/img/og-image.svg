@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="Montserrat, Arial, sans-serif">
+  <rect width="1200" height="630" fill="#f5f8fc"/>
+  <rect x="0" y="0" width="1200" height="12" fill="#0075ff"/>
+
+  <!-- logo -->
+  <g transform="translate(80,80)">
+    <rect width="56" height="56" rx="14" fill="#0075ff"/>
+    <path d="M16 20h24M16 28h30M16 36h18" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+    <text x="72" y="40" font-size="34" font-weight="800" fill="#0f172a">Spisovka</text>
+    <text x="220" y="40" font-size="22" font-weight="500" fill="#94a3b8">od Scia</text>
+  </g>
+
+  <text x="80" y="270" font-size="62" font-weight="800" fill="#0f172a">Spisová služba</text>
+  <text x="80" y="345" font-size="62" font-weight="800" fill="#0f172a">elektronicky od ledna 2027</text>
+
+  <text x="80" y="420" font-size="30" font-weight="500" fill="#475569">Pro základní a střední školy. Připravíme vás na to v klidu.</text>
+
+  <!-- badge -->
+  <g transform="translate(80,480)">
+    <rect width="290" height="64" rx="14" fill="#0075ff"/>
+    <text x="145" y="42" font-size="26" font-weight="700" fill="#fff" text-anchor="middle">Mám zájem</text>
+  </g>
+  <text x="400" y="522" font-size="22" font-weight="600" fill="#64748b">30 let ve školství · 28 vlastních škol a zařízení</text>
+</svg>

@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/*  Font — Montserrat (self-hostováno, žádný third-party požadavek)    */
+/*  Soubory: assets/fonts/*.woff2  (Montserrat Variable, OFL licence)  */
+/*  Cesty jsou relativní k výstupnímu css/styles.css.                  */
+/* ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/montserrat-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+    U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../assets/fonts/montserrat-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02AF, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Design tokeny (vychází z živého scio.cz)                           */
+/* ------------------------------------------------------------------ */
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+
+  --color-brand: #0075ff;
+  --color-brand-dark: #0363af;
+  --color-brand-light: #a4cafc;
+  --color-brand-soft: #f5f8fc;
+
+  /* Akcent — používá se střídmě, hlavně na tvrdý termín 1. 1. 2027 */
+  --color-accent: #e23922;
+  --color-accent-soft: #fdece9;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Base                                                               */
+/* ------------------------------------------------------------------ */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white font-sans text-slate-700 antialiased;
+  }
+
+  h1, h2, h3 {
+    @apply text-slate-900;
+    text-wrap: balance;
+  }
+
+  /* Sticky nav nesmí překrýt nadpis sekce při skoku na kotvu */
+  :where(section[id]) {
+    scroll-margin-top: 5.5rem;
+  }
+
+  /* Viditelný focus stav pro klávesnici (a11y) */
+  :where(a, button, input, select, textarea, summary):focus-visible {
+    @apply outline-none ring-4 ring-brand/40 ring-offset-2 ring-offset-white;
+    border-radius: 0.375rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/*  Komponenty                                                         */
+/* ------------------------------------------------------------------ */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-brand
+      px-7 py-4 text-base font-semibold text-white shadow-sm transition
+      hover:bg-brand-dark hover:shadow-md active:translate-y-px;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl
+      border border-slate-300 bg-white px-6 py-4 text-base font-semibold
+      text-slate-700 transition hover:border-brand hover:text-brand;
+  }
+
+  .container-tight {
+    @apply mx-auto w-full max-w-5xl px-5 sm:px-6;
+  }
+
+  .container-wide {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-6;
+  }
+
+  .section-eyebrow {
+    @apply mb-3 text-sm font-semibold uppercase tracking-wide text-brand;
+  }
+
+  .card {
+    @apply rounded-2xl border border-slate-200 bg-white p-6 shadow-sm;
+  }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-semibold text-slate-800;
+  }
+
+  .field-input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-4 py-3
+      text-base text-slate-900 transition placeholder:text-slate-400
+      hover:border-slate-400 focus:border-brand focus:outline-none
+      focus:ring-4 focus:ring-brand/20;
+  }
+
+  /* Stav nevalidního pole (nastavuje js/form.js) */
+  .field-input[aria-invalid="true"] {
+    @apply border-accent ring-2 ring-accent/30;
+  }
+}
