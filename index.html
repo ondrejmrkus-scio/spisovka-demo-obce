@@ -4,23 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ffffff" />
+  <!-- DEMO: neindexovat (feedback verze, ne produkce) -->
+  <meta name="robots" content="noindex, nofollow" />
 
   <!-- SEO -->
   <title>Spisovka – elektronická spisová služba pro malé obce od Scio</title>
-  <meta name="description" content="Od 1. 1. 2027 musí i malé obce vést spisovou službu elektronicky. Pro obce I. typu a jejich organizace, bez povinné atestace. Provedeme vás celým přechodem: metodika, zavedení i podpora. Spisovka od Scio." />
-  <meta name="keywords" content="elektronická spisová služba obce, eSSL obce I. typu, spisová služba příspěvková organizace, neatestovaná spisová služba, spisová služba malá obec" />
-  <link rel="canonical" href="https://TODO-domena.cz/" />
+  <meta name="description" content="Od 1. 1. 2027 musí i malé obce vést spisovou službu elektronicky. Spisovka od Scio pro obce I. typu a jejich organizace. Zavedení, metodika i podpora bez stresu." />
+  <meta name="keywords" content="elektronická spisová služba obce, eSSL obce I. typu, spisová služba příspěvková organizace, spisová služba malá obec, spisová služba 2027" />
+  <link rel="canonical" href="https://spisovka.scio.cz/obce/" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="cs_CZ" />
   <meta property="og:title" content="Spisovka – elektronická spisová služba pro malé obce od Scio" />
-  <meta property="og:description" content="Od 1. 1. 2027 i malé obce vedou spisovou službu elektronicky. Obce I. typu a jejich organizace nepotřebují atestovaný systém. Provedeme vás přechodem: metodika, zavedení i podpora." />
-  <!-- TODO: nahradit absolutní URL po nasazení domény; pro maximální kompatibilitu vyexportovat og-image do PNG -->
-  <meta property="og:image" content="https://TODO-domena.cz/assets/img/og-image.svg" />
+  <meta property="og:description" content="Od 1. 1. 2027 musí i malé obce vést spisovou službu elektronicky. Spisovka od Scio vás na to připraví: zavedení, metodika i podpora." />
+  <!-- TODO: po finálním rozhodnutí domény ověřit absolutní URL; pro max. kompatibilitu vyexportovat og-image do PNG -->
+  <meta property="og:image" content="https://spisovka.scio.cz/obce/assets/img/og-image.svg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://TODO-domena.cz/" />
+  <meta property="og:url" content="https://spisovka.scio.cz/obce/" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Favicon (TODO: doplnit kompletní sadu favicon/apple-touch po dodání loga) -->
@@ -32,11 +34,50 @@
 
   <link rel="stylesheet" href="css/styles.css" />
 
+  <!-- Výška embednutého Google Formuláře. Iframe je cross-origin, takže ho nelze
+       auto-resizovat podle obsahu; hodnoty odpovídají reálné výšce formuláře.
+       Po vložení obecního formuláře hodnoty doladit (mobil potřebuje víc). -->
+  <style>
+    /* Výška iframu sjednocená se školní verzí (stejný obsah formuláře). */
+    #lead-iframe { height: 1140px; }
+    @media (min-width: 480px) { #lead-iframe { height: 1030px; } }
+    @media (min-width: 640px) { #lead-iframe { height: 960px; } }
+  </style>
+
+  <!-- Vizualizace: cesta dokumentu. Vlastní scoped CSS, nezávislé na Tailwind buildu. -->
+  <style>
+    .viz-wrap{margin-top:2rem}
+    .viz-track{display:flex;flex-direction:column;align-items:stretch;gap:.5rem}
+    .viz-node{border-radius:12px;padding:.8rem .9rem;text-align:center}
+    .viz-node--inputs{background:#fff;border:1px solid #e2e8f0}
+    .viz-inputs-label{font-size:.72rem;font-weight:700;color:#5b6b7a;margin-bottom:.45rem}
+    .viz-chips{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center}
+    .viz-chip{background:#f1f4f7;border:1px solid #dce1e7;border-radius:8px;padding:.35rem .6rem;font-size:.8rem;color:#374151;white-space:nowrap}
+    .viz-node--step{background:var(--color-brand-soft);border:1px solid var(--color-brand)}
+    .viz-node--end{background:var(--color-brand);border:1px solid var(--color-brand-dark)}
+    .viz-node__title{font-size:.88rem;font-weight:700;color:var(--color-brand-dark)}
+    .viz-node--end .viz-node__title{color:#fff}
+    .viz-node__sub{font-size:.74rem;color:#5b6b7a;margin-top:.1rem}
+    .viz-node--end .viz-node__sub{color:#d9e9ff}
+    .viz-sep{display:flex;align-items:center;justify-content:center;color:#9aa3ad}
+    .viz-sep svg{width:22px;height:22px;transform:rotate(90deg)}
+    .viz-audit{margin-top:.6rem;background:#dcfce7;border:1px solid #16a34a;border-radius:12px;padding:.7rem;text-align:center}
+    .viz-audit__title{font-size:.82rem;font-weight:700;color:#15803d}
+    .viz-audit__sub{font-size:.74rem;color:#166534;margin-top:.1rem}
+    @media(min-width:768px){
+      .viz-track{flex-direction:row;align-items:stretch;gap:0}
+      .viz-node{flex:1;display:flex;flex-direction:column;justify-content:center}
+      .viz-node--inputs{flex:1.25}
+      .viz-sep{flex:0 0 auto;padding:0 .35rem}
+      .viz-sep svg{transform:none}
+    }
+  </style>
+
   <!-- ============================================================= -->
   <!--  ANALYTIKA — placeholder. Vlož sem GTM / GA4 / Plausible.     -->
-  <!--  Konverze "odeslání formuláře" se měří přes window.dataLayer  -->
-  <!--  v js/form.js (událost 'lead_submit'). NEVKLÁDAT reálné ID    -->
-  <!--  dokud není rozhodnut nástroj — viz README, sekce Analytika.  -->
+  <!--  Konverzi (odeslání formuláře) řeší vložený Google Formulář.  -->
+  <!--  NEVKLÁDAT reálné ID, dokud není rozhodnut nástroj —          -->
+  <!--  viz README, sekce Analytika.                                 -->
   <!-- ============================================================= -->
   <!--
   <script>
@@ -55,7 +96,7 @@
     "name": "Spisovka",
     "brand": { "@type": "Brand", "name": "Scio" },
     "category": "Elektronická spisová služba pro obce I. typu a jejich organizace",
-    "description": "Elektronická spisová služba pro obce I. typu, jejich organizační složky a zřizované organizace, v souladu se zákonem č. 499/2004 Sb. a Národním standardem (NSESSS). Bez povinné atestace. Zavedení, metodika i podpora od Scio."
+    "description": "Elektronická spisová služba pro obce I. typu, jejich organizační složky a zřizované organizace, v souladu se zákonem č. 499/2004 Sb. a Národním standardem (NSESSS). Zavedení, metodika i podpora od Scio."
   }
   </script>
 </head>
@@ -67,18 +108,17 @@
   <header class="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur">
     <nav class="container-wide flex h-16 items-center justify-between" aria-label="Hlavní">
       <a href="#hlavni-obsah" class="flex items-center gap-2.5" aria-label="Spisovka od Scio – domů">
-        <!-- TODO: nahradit oficiálním logem Scio (SVG). Zatím čistý wordmark. -->
-        <svg width="30" height="30" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-          <rect width="32" height="32" rx="8" fill="#0075ff" />
-          <path d="M9 11.5h11M9 16h14M9 20.5h8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
-        </svg>
-        <span class="text-lg font-extrabold tracking-tight text-slate-900">Spisovka</span>
+        <!-- Wordmark Spisovka: modrá tečka místo „o" navazuje na značku Scio. (Stejné jako školní verze.) -->
+        <span class="text-xl font-extrabold tracking-tight text-slate-900">Spis<span aria-hidden="true" style="display:inline-block;width:.45em;height:.45em;border-radius:9999px;background:var(--color-brand);vertical-align:middle;margin:0 .05em 0 .07em;"></span>vka</span>
+        <span aria-hidden="true" class="hidden sm:block" style="width:1px;height:20px;background:var(--color-slate-200);"></span>
         <span class="hidden text-sm font-medium text-slate-400 sm:inline">od&nbsp;Scio</span>
       </a>
       <div class="flex items-center gap-5">
         <a href="#pro-koho" class="hidden text-sm font-semibold text-slate-600 transition hover:text-brand md:inline">Pro koho</a>
         <a href="#jak-to-probiha" class="hidden text-sm font-semibold text-slate-600 transition hover:text-brand md:inline">Jak to probíhá</a>
         <a href="#faq" class="hidden text-sm font-semibold text-slate-600 transition hover:text-brand md:inline">Časté dotazy</a>
+        <!-- Odkaz na sesterskou verzi pro školy. TODO: potvrdit finální URL školní verze. -->
+        <a href="https://spisovka.scio.cz/" class="hidden text-sm font-semibold text-slate-600 transition hover:text-brand md:inline">Pro školy</a>
         <a href="#formular" class="rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-dark">Mám zájem</a>
       </div>
     </nav>
@@ -91,10 +131,10 @@
       <div class="container-tight py-16 sm:py-24">
         <p class="section-eyebrow">Elektronická spisová služba pro malé obce a jejich organizace</p>
         <h1 class="max-w-3xl text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl md:text-5xl">
-          Od ledna 2027 musíte vést spisovou službu elektronicky. Připravíme vás na to v&nbsp;klidu.
+          Od ledna 2027 musí obce vést spisovou službu elektronicky. Připravíme vás na to v&nbsp;klidu.
         </h1>
         <p class="mt-6 max-w-2xl text-lg leading-relaxed text-slate-600">
-          Spisovka je řešení od Scio, které vás dostane do souladu se zákonem. Pro obce I. typu a jejich organizace, atestovaný systém jako velké úřady nepotřebujete. Celým přechodem vás provedeme: bez úřednické složitosti a bez stresu na poslední chvíli.
+          Spisovka je řešení od Scio, které vaši obec dostane do souladu se zákonem. Zvládne ji i ten, kdo spisovou službu nikdy nedělal. Bez úřednické složitosti a bez stresu na poslední chvíli.
         </p>
         <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <a href="#formular" class="btn-primary">Mám zájem</a>
@@ -105,7 +145,7 @@
         </div>
         <p class="mt-8 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-medium text-slate-500">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" class="text-brand" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Od Scio. Přes 30 let ve vzdělávání. Stejné jádro stavíme i pro 28 vlastních škol Scio.
+          Od Scio. Přes 30 let ve vzdělávání.
         </p>
       </div>
     </section>
@@ -116,7 +156,7 @@
         <h2 class="text-2xl font-extrabold sm:text-3xl">Týká se to vaší obce nebo organizace?</h2>
         <div class="mt-6 max-w-3xl text-lg leading-relaxed text-slate-600">
           <p>
-            Spisovku od Scio stavíme pro subjekty, které mají <strong>výjimku z atestace</strong>. Tedy pro ty, kdo musí vést spisovou službu podle zákona, ale nemusí mít drahý atestovaný systém jako velké úřady.
+            Spisovka je pro malé obce a jejich organizace, na které dopadá povinnost vést spisovou službu elektronicky.
           </p>
         </div>
 
@@ -126,7 +166,7 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4M9 11h.01M15 11h.01M9 14h.01M15 14h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3 class="text-lg font-bold text-slate-900">Obce I. typu</h3>
-            <p class="mt-1.5 text-slate-600">Obce, které vykonávají přenesenou působnost jen v základním rozsahu, tedy bez stavebního a bez matričního úřadu.</p>
+            <p class="mt-1.5 text-slate-600">Většina malých obcí. Poznáte je tak, že nemají stavební ani matriční úřad.</p>
           </li>
           <li class="card">
             <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-brand" aria-hidden="true">
@@ -140,51 +180,79 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5a2 2 0 012-2h8l6 6v10a2 2 0 01-2 2H6a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v6h6" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
             </div>
             <h3 class="text-lg font-bold text-slate-900">Příspěvkové a jiné organizace</h3>
-            <p class="mt-1.5 text-slate-600">Organizace zřízené nebo založené těmito obcemi: knihovny, muzea, kulturní domy, technické a sociální služby. Máte stejnou výjimku z atestace jako vaše obec. Pro nás jste plnohodnotná cílovka, ne přívažek, a přechodem vás provedeme.</p>
+            <p class="mt-1.5 text-slate-600">Knihovny, muzea, kulturní domy, technické a sociální služby zřízené obcí.</p>
           </li>
         </ul>
 
         <p class="mt-6 max-w-3xl text-slate-600">
-          Máte stavební nebo matriční úřad, jste obec s rozšířenou působností, kraj nebo jiný určený původce? Pak od roku 2027 potřebujete <strong>atestovaný</strong> systém a Spisovka pro vás zatím není určená. Když si nejste jistí, <a href="#formular" class="font-semibold text-brand underline hover:text-brand-dark">napište nám</a> a pomůžeme vám se zařadit.
+          Máte stavební nebo matriční úřad, jste obec s rozšířenou působností nebo kraj? Pak pro vás Spisovka zatím není určená. Když si nejste jistí, <a href="mailto:spisovka@scio.cz" class="font-semibold text-brand underline hover:text-brand-dark">napište nám</a> a pomůžeme vám se zařadit.
         </p>
       </div>
     </section>
 
+    <!-- ================= VIZ: CESTA DOKUMENTU ================= -->
+    <section class="bg-brand-soft py-12 sm:py-16">
+      <div class="container-tight">
+        <h2 class="text-2xl font-extrabold sm:text-3xl">Co spisová služba udělá s každým dokumentem</h2>
+        <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
+          Ať dorazí datovkou, e-mailem nebo na papíře, projde jednou evidencí: dostane jednací číslo, vyřídí se, uloží do spisu a po uplynutí lhůty se skartuje nebo archivuje. U každého dokumentu zůstává záznam, kdo s ním kdy co udělal.
+        </p>
+        <div class="viz-wrap" role="img" aria-label="Cesta dokumentu: vstupy z datové schránky, e-mailu a papíru vedou do příjmu a evidence s jednacím číslem, dál do zpracování a podpisu, uložení do spisu a nakonec skartace nebo archivu. U každého dokumentu zůstává záznam, kdo s ním kdy co udělal.">
+          <div class="viz-track">
+            <div class="viz-node viz-node--inputs">
+              <div class="viz-inputs-label">Co k vám přijde</div>
+              <div class="viz-chips">
+                <span class="viz-chip">Datová schránka</span>
+                <span class="viz-chip">E-mail</span>
+                <span class="viz-chip">Papír</span>
+              </div>
+            </div>
+            <div class="viz-sep"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="viz-node viz-node--step"><div class="viz-node__title">Příjem a evidence</div><div class="viz-node__sub">jednací číslo</div></div>
+            <div class="viz-sep"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="viz-node viz-node--step"><div class="viz-node__title">Zpracování</div><div class="viz-node__sub">podpis, vyřízení</div></div>
+            <div class="viz-sep"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="viz-node viz-node--step"><div class="viz-node__title">Uložení do spisu</div><div class="viz-node__sub">spisový plán</div></div>
+            <div class="viz-sep"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div class="viz-node viz-node--end"><div class="viz-node__title">Skartace nebo archiv</div><div class="viz-node__sub">po uplynutí lhůty</div></div>
+          </div>
+          <div class="viz-audit">
+            <div class="viz-audit__title">Auditní stopa</div>
+            <div class="viz-audit__sub">u každého dokumentu je vidět, kdo, kdy a co s ním udělal</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ================= 3. CO SE MĚNÍ ================= -->
-    <section id="co-se-meni" class="bg-brand-soft py-16 sm:py-20">
+    <section id="co-se-meni" class="py-16 sm:py-20">
       <div class="container-tight">
         <h2 class="text-2xl font-extrabold sm:text-3xl">Jak to je s povinností</h2>
         <div class="mt-6 max-w-3xl space-y-4 text-lg leading-relaxed text-slate-600">
           <p>
-            Spisovou službu musí vést každá obec. To máte dlouhodobě. Co je nové: od 1. ledna 2027 ji musíte vést elektronicky, v systému, který splňuje Národní standard. Možnost volby papír, nebo elektronicky končí 31. prosince 2026 a platí to pro všechny veřejnoprávní původce bez rozdílu, tedy i pro obce I. typu a jejich organizace.
-          </p>
-          <p>
-            Kolem roku 2027 se hodně mluví o atestaci elektronických systémů. Atestovaný systém ale potřebují jen velcí původci: obce s rozšířenou působností, kraje a úřady. Obce I. typu a jejich organizace mají z atestace výjimku.
-          </p>
-          <p>
-            Pro vás to znamená: vést spisovou službu elektronicky od ledna 2027 ano, drahý atestovaný systém ne. Stačí řešení, které splní zákon, vyhlášku i Národní standard (NSESSS). A když na elektronickou spisovou službu teprve přecházíte, provedeme vás tím.
+            Spisovou službu vede každá obec odjakživa. Nové je, že od 1. ledna 2027 ji musíte vést elektronicky, v systému, který splňuje takzvaný Národní standard. To jsou technická pravidla, která má systém plnit.
           </p>
         </div>
 
         <ul class="mt-10 grid gap-4 sm:grid-cols-3">
           <li class="card flex items-start gap-3">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span><span class="block text-sm font-semibold uppercase tracking-wide text-slate-400">Atestace</span><span class="text-lg font-bold text-slate-900">Nepotřebujete</span></span>
-          </li>
-          <li class="card flex items-start gap-3">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-            <span><span class="block text-sm font-semibold uppercase tracking-wide text-slate-400">Co musíte</span><span class="text-lg font-bold text-slate-900">Elektronicky od 1. 1. 2027</span></span>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M8 2v4m8-4v4M3 10h18M5 6h14a2 2 0 012 2v11a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span><span class="block text-sm font-semibold uppercase tracking-wide text-slate-400">Termín</span><span class="text-lg font-bold text-slate-900">1.&nbsp;1.&nbsp;2027</span></span>
           </li>
           <li class="card flex items-start gap-3">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span><span class="block text-sm font-semibold uppercase tracking-wide text-slate-400">Co umíme</span><span class="text-lg font-bold text-slate-900">Přechod i provoz za vás</span></span>
+            <span><span class="block text-sm font-semibold uppercase tracking-wide text-slate-400">Koho se týká</span><span class="text-lg font-bold text-slate-900">Obce I. typu a jejich organizace</span></span>
+          </li>
+          <li class="card flex items-start gap-3">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 21h8M12 17v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            <span><span class="block text-sm font-semibold uppercase tracking-wide text-slate-400">Forma</span><span class="text-lg font-bold text-slate-900">Elektronicky</span></span>
           </li>
         </ul>
       </div>
     </section>
 
     <!-- ================= 4. CO TO PRO VÁS ZNAMENÁ ================= -->
-    <section id="co-to-znamena" class="py-16 sm:py-20">
+    <section id="co-to-znamena" class="bg-brand-soft py-16 sm:py-20">
       <div class="container-tight">
         <h2 class="text-2xl font-extrabold sm:text-3xl">Co to pro vás v praxi znamená</h2>
         <div class="mt-8 grid gap-5 sm:grid-cols-2">
@@ -194,53 +262,53 @@
           </div>
           <div class="card">
             <h3 class="text-lg font-bold text-slate-900">Soulad se zákonem a klid při kontrole.</h3>
-            <p class="mt-2 text-slate-600">Evidence, podpisy, skartace i auditní stopa tak, jak to vyžaduje legislativa a GDPR. Kontrolu u obcí provádí státní oblastní archiv.</p>
+            <p class="mt-2 text-slate-600">Evidence, podpisy, skartace i auditní stopa podle zákona a GDPR. Kontrolu u obcí provádí státní oblastní archiv.</p>
           </div>
           <div class="card">
             <h3 class="text-lg font-bold text-slate-900">Zvládne to i člověk, co spisovku nikdy nedělal.</h3>
             <p class="mt-2 text-slate-600">Navrženo pro malou obec, ne pro velký úřad. Srozumitelné kroky místo úřednického žargonu.</p>
           </div>
           <div class="card">
-            <h3 class="text-lg font-bold text-slate-900">Atestaci jako velké úřady neřešíte.</h3>
-            <p class="mt-2 text-slate-600">Splníme zákon, vyhlášku i Národní standard, bez nákladů a složitosti, které atestovaná řešení nesou.</p>
+            <h3 class="text-lg font-bold text-slate-900">Připravíte se v klidu a včas.</h3>
+            <p class="mt-2 text-slate-600">Zavedení a školení proběhne na podzim 2026. V lednu 2027 máte hotovo a zaběhnuto.</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ================= 5. PROČ SPISOVKA ================= -->
-    <section id="proc-spisovka" class="bg-brand-soft py-16 sm:py-20">
+    <section id="proc-spisovka" class="py-16 sm:py-20">
       <div class="container-tight">
         <h2 class="text-2xl font-extrabold sm:text-3xl">Proč Spisovka</h2>
         <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
-          Spisovku stavíme tak, aby ji zvládla i nejmenší obec nebo knihovna, kde se o všechno stará jeden nebo dva lidé. Stejné jádro připravujeme i pro 28 vlastních škol Scio, které mají stejnou povinnost i stejnou výjimku z atestace.
+          Je navržená tak, aby ji zvládla i nejmenší obec nebo knihovna, kde je na všechno jeden nebo dva lidé. Stejné řešení používá i 28 vlastních škol Scio, které mají stejnou povinnost jako vy.
         </p>
 
         <div class="mt-8 grid gap-5 sm:grid-cols-2">
           <div class="card">
-            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-brand" aria-hidden="true">
+            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-brand" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3 class="text-lg font-bold text-slate-900">Jednoduchá.</h3>
             <p class="mt-1.5 text-slate-600">Srozumitelné prostředí pro běžnou práci obce nebo organizace, ne nástroj pro velký úřad.</p>
           </div>
           <div class="card">
-            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-brand" aria-hidden="true">
+            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-brand" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3 class="text-lg font-bold text-slate-900">V souladu se zákonem.</h3>
-            <p class="mt-1.5 text-slate-600">Splní zákon, vyhlášku i Národní standard, včetně skartace a auditní stopy.</p>
+            <p class="mt-1.5 text-slate-600">Splní zákon i Národní standard, včetně skartace a auditní stopy.</p>
           </div>
           <div class="card">
-            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-brand" aria-hidden="true">
+            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-brand" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 7v5l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <h3 class="text-lg font-bold text-slate-900">Uděláme to za vás.</h3>
-            <p class="mt-1.5 text-slate-600">Nedostanete jen software. Připravíme spisový a skartační plán, pomůžeme se směrnicí a postaráme se i o provoz, včetně skartačního řízení s archivem.</p>
+            <h3 class="text-lg font-bold text-slate-900">Včas a správně.</h3>
+            <p class="mt-1.5 text-slate-600">Pomůžeme vám spisovou službu zavést na podzim 2026, abyste měli v lednu 2027 vše na správném místě.</p>
           </div>
           <!-- Lidská podpora = prvotřídní sdělení; karta vizuálně zvýrazněná -->
-          <div class="card border-brand-light bg-white ring-1 ring-brand-light">
-            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft text-brand" aria-hidden="true">
+          <div class="card border-brand-light bg-brand-soft ring-1 ring-brand-light">
+            <div class="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-white text-brand" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1.13a4 4 0 10-4-4 4 4 0 004 4zm5-4a3 3 0 10-2-5.24" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <h3 class="text-lg font-bold text-slate-900">Nezůstanete na to sami.</h3>
@@ -248,55 +316,26 @@
           </div>
         </div>
 
-        <!-- Done-for-you proužek — odlišení službou, ne cenou -->
+        <!-- Cenový proužek — férová a transparentní cena -->
         <div class="mt-6 flex flex-col items-start gap-4 rounded-2xl border border-slate-200 bg-slate-900 p-6 text-white sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <div>
-            <p class="text-sm font-semibold uppercase tracking-wide text-brand-light">Hotové řešení, ne jen program</p>
+            <p class="text-sm font-semibold uppercase tracking-wide text-brand-light">Férová a transparentní cena</p>
             <p class="mt-1 text-2xl font-extrabold sm:text-3xl">
-              Uděláme spisovou službu za vás
+              <span data-config-price>10&nbsp;000&nbsp;Kč</span> ročně za subjekt
             </p>
-            <p class="mt-1.5 max-w-xl text-slate-300">Software je jen část. Metodiku, spisový a skartační plán, zavedení i provoz musí někdo zvládnout. My to převezmeme za vás: od přechodu po skartační řízení s archivem. Férová cena 10 000 Kč ročně za subjekt, bez skrytých poplatků.</p>
+            <p class="mt-1.5 max-w-xl text-slate-300">V ceně je zavedení, metodika i telefonická podpora. Žádné skryté poplatky, žádná „cena na poptávku".</p>
           </div>
           <a href="#formular" class="btn-primary shrink-0">Mám zájem</a>
         </div>
       </div>
     </section>
 
-    <!-- ================= 6. UŽ NĚCO MÁME. PROČ SCIO? ================= -->
-    <section id="proc-menit" class="py-16 sm:py-20">
-      <div class="container-tight">
-        <h2 class="text-2xl font-extrabold sm:text-3xl">Už něco máme. Proč řešit Spisovku?</h2>
-        <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
-          Možná už spisovku nějak vedete: na papíře, v tabulce nebo jako přídavek k účetnictví. Pokud vám stávající řešení vyhovuje a od roku 2027 splní Národní standard, neměňte nic. Spisovka dává smysl, když:
-        </p>
-        <ul class="mt-6 grid max-w-3xl gap-3">
-          <li class="card flex items-start gap-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="text-slate-700">ještě vedete spisovku na papíře nebo v tabulce a potřebujete přejít na elektronickou,</span>
-          </li>
-          <li class="card flex items-start gap-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="text-slate-700">vám stávající systém přijde složitý, drahý nebo nevyhovuje vaší velikosti,</span>
-          </li>
-          <li class="card flex items-start gap-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="text-slate-700">jste příspěvková organizace a chcete řešení i podporu na míru, ne přívažek k cizímu systému,</span>
-          </li>
-          <li class="card flex items-start gap-3">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" class="mt-0.5 shrink-0 text-brand" aria-hidden="true"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            <span class="text-slate-700">chcete jednoduché samostatné řešení a lidskou podporu, na kterou se spolehnete.</span>
-          </li>
-        </ul>
-        <p class="mt-6 max-w-3xl text-slate-600">S přechodem ze stávajícího systému vám pomůžeme, o data nepřijdete.</p>
-      </div>
-    </section>
-
-    <!-- ================= 7. JAK TO BUDE PROBÍHAT (TIMELINE) ================= -->
+    <!-- ================= 6. JAK TO BUDE PROBÍHAT (TIMELINE) ================= -->
     <section id="jak-to-probiha" class="bg-brand-soft py-16 sm:py-20">
-      <div class="container-wide">
+      <div class="container-tight">
         <h2 class="text-2xl font-extrabold sm:text-3xl">Jak to s vámi proběhne</h2>
         <p class="mt-4 max-w-3xl text-lg leading-relaxed text-slate-600">
-          Přechod na elektronickou spisovou službu nemusí být skok do neznáma. Provedeme vás jím krok za krokem, tempem, které vám sedí.
+          Přechod nemusí být skok do neznáma. Provedeme vás jím krok za krokem, tempem, které vám sedí.
         </p>
 
         <!-- Timeline: na mobilu vertikální (pod sebou), na desktopu horizontální -->
@@ -318,8 +357,8 @@
             <div class="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full bg-brand font-bold text-white shadow md:relative md:mb-5" aria-hidden="true">2</div>
             <div class="md:pr-4">
               <p class="text-sm font-semibold uppercase tracking-wide text-brand">Podzim 2026</p>
-              <h3 class="mt-1 text-lg font-bold text-slate-900">Přípravy a podklady</h3>
-              <p class="mt-1.5 text-slate-600">Dostanete vzorový spisový a skartační plán, návod ke směrnici a návody k systému.</p>
+              <h3 class="mt-1 text-lg font-bold text-slate-900">Zavedení a školení</h3>
+              <p class="mt-1.5 text-slate-600">Dostanete vzorový spisový a skartační plán, návod ke směrnici a zaškolíme vás do systému.</p>
             </div>
           </li>
 
@@ -328,146 +367,75 @@
             <div class="md:pr-4">
               <p class="text-sm font-semibold uppercase tracking-wide text-brand">Konec podzimu 2026</p>
               <h3 class="mt-1 text-lg font-bold text-slate-900">Pracujete nanečisto</h3>
-              <p class="mt-1.5 text-slate-600">Spisovka běží a vy si na reálných dokumentech vyzkoušíte příjem pošty i datovku. My ladíme detaily na vlastních školách Scio.</p>
+              <p class="mt-1.5 text-slate-600">Spisovka běží a vy si na reálných dokumentech vyzkoušíte příjem pošty i datovku.</p>
             </div>
           </li>
 
-          <!-- Cílová fáze — spuštění -->
+          <!-- Cílová fáze — zvýrazněný tvrdý termín -->
           <li class="relative pl-14 md:pl-0">
             <div class="absolute left-0 top-0 flex h-11 w-11 items-center justify-center rounded-full bg-green-600 font-bold text-white shadow ring-4 ring-green-100 md:relative md:mb-5" aria-hidden="true">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
             <div class="rounded-2xl border-2 border-green-600 bg-white p-4 md:mr-0">
-              <p class="text-sm font-bold uppercase tracking-wide text-green-700">1. 1. 2027 – váš zákonný termín</p>
+              <p class="text-sm font-bold uppercase tracking-wide text-green-700">1. 1. 2027 – zákonný termín</p>
               <h3 class="mt-1 text-lg font-bold text-slate-900">Ostrý provoz</h3>
-              <p class="mt-1.5 text-slate-600">Vedete spisovou službu elektronicky a v souladu se zákonem. A když bude potřeba, zůstáváme vám k dispozici.</p>
+              <p class="mt-1.5 text-slate-600">Vedete spisovou službu elektronicky a v souladu se zákonem.</p>
             </div>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- ================= 8. DŮVĚRA ================= -->
+    <!-- ================= 7. DŮVĚRA ================= -->
     <section id="proc-nam-verit" class="py-16 sm:py-20">
       <div class="container-tight">
         <h2 class="text-2xl font-extrabold sm:text-3xl">Proč nám věřit</h2>
         <p class="mt-6 max-w-3xl text-lg leading-relaxed text-slate-600">
-          Scio působí ve vzdělávání a veřejně prospěšné sféře přes 30 let. Spisovku stavíme nejdřív pro 28 vlastních škol a školských zařízení Scio, která mají stejnou zákonnou povinnost i stejnou výjimku z atestace jako vy. Jádro produktu si tak ověřujeme v reálném provozu sami na sobě. Obcím nabízíme stejné řešení, jen s podporou na míru.
+          Scio působí ve vzdělávání přes 30 let. Spisovku používá 28 vlastních školských zařízení, která mají stejnou povinnost jako vy.
         </p>
         <dl class="mt-10 grid gap-4 sm:grid-cols-3">
           <div class="card text-center">
-            <dt class="order-2 text-sm font-medium text-slate-500">let ve vzdělávání a veřejně prospěšné sféře</dt>
+            <dt class="order-2 text-sm font-medium text-slate-500">let praxe</dt>
             <dd class="order-1 text-4xl font-extrabold text-brand">30+</dd>
           </div>
           <div class="card text-center">
-            <dt class="order-2 text-sm font-medium text-slate-500">vlastních škol Scio na stejném jádru</dt>
+            <dt class="order-2 text-sm font-medium text-slate-500">vlastních školských zařízení</dt>
             <dd class="order-1 text-4xl font-extrabold text-brand">28</dd>
           </div>
           <div class="card text-center">
-            <dt class="order-2 text-sm font-medium text-slate-500">telefonická podpora každý pracovní den</dt>
+            <dt class="order-2 text-sm font-medium text-slate-500">telefonická podpora</dt>
             <dd class="order-1 text-2xl font-extrabold text-brand sm:text-3xl">po–pá</dd>
           </div>
         </dl>
       </div>
     </section>
 
-    <!-- ================= 9. FORMULÁŘ ================= -->
+    <!-- ================= 8. FORMULÁŘ ================= -->
     <section id="formular" class="bg-brand-soft py-16 sm:py-20">
       <div class="container-tight max-w-2xl">
-        <h2 class="text-2xl font-extrabold sm:text-3xl">Vyplňte nezávazný formulář</h2>
-        <p class="mt-4 text-lg leading-relaxed text-slate-600">
-          Nechte nám kontakt. Ozveme se vám s dalšími kroky a na podzim vás pozveme do přípravy. Nic teď neplatíte.
-        </p>
-
-        <!-- Stav: úspěch (skrytý, zobrazí js/form.js) -->
-        <div id="form-success" class="mt-8 hidden rounded-2xl border border-brand-light bg-white p-8 text-center" role="status" aria-live="polite">
-          <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-brand-soft text-brand" aria-hidden="true">
-            <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <h3 class="text-xl font-bold text-slate-900">Děkujeme. Ozveme se vám.</h3>
-          <p class="mt-2 text-slate-600">Mezitím se na nás můžete kdykoliv obrátit s dotazem ke spisové službě pro vaši obec nebo organizaci.</p>
+        <!-- Google Formulář (embed). Vlastní nadpis a popis (nezávazný zájem, ozveme se,
+             nic neplatíte) má samotný formulář. Data padají do propojeného Google Sheetu,
+             konverzi i GDPR souhlas řeší formulář. Zdroj: https://forms.gle/9S7fQLyEsn9UAV4Q8 -->
+        <div class="overflow-hidden rounded-2xl border border-brand-light bg-white">
+          <iframe
+            id="lead-iframe"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeUl5WMbfZrlUWOWtU6I639ZTRWBPIbjB9tbj_cauA54DCj0g/viewform?embedded=true"
+            title="Nezávazný formulář zájmu o Spisovku pro obce"
+            class="block w-full"
+            style="border:0;"
+            loading="lazy">
+            Načítání…
+          </iframe>
         </div>
 
-        <form id="lead-form" class="mt-8 space-y-5" novalidate>
-          <div>
-            <label class="field-label" for="name">Jméno a příjmení <span class="text-accent">*</span></label>
-            <input class="field-input" type="text" id="name" name="name" autocomplete="name" required aria-required="true" />
-            <p class="mt-1 hidden text-sm text-accent" data-error-for="name"></p>
-          </div>
-
-          <div>
-            <label class="field-label" for="email">E-mail <span class="text-accent">*</span></label>
-            <input class="field-input" type="email" id="email" name="email" autocomplete="email" required aria-required="true" />
-            <p class="mt-1 hidden text-sm text-accent" data-error-for="email"></p>
-          </div>
-
-          <div>
-            <label class="field-label" for="phone">Telefon <span class="font-normal text-slate-400">(nepovinné)</span></label>
-            <input class="field-input" type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" />
-            <p class="mt-1 hidden text-sm text-accent" data-error-for="phone"></p>
-          </div>
-
-          <div>
-            <label class="field-label" for="org">Název obce / organizace <span class="text-accent">*</span></label>
-            <input class="field-input" type="text" id="org" name="org" autocomplete="organization" required aria-required="true" />
-            <p class="mt-1 hidden text-sm text-accent" data-error-for="org"></p>
-          </div>
-
-          <div class="grid gap-5 sm:grid-cols-2">
-            <div>
-              <label class="field-label" for="subjectType">Typ subjektu <span class="text-accent">*</span></label>
-              <select class="field-input" id="subjectType" name="subjectType" required aria-required="true">
-                <option value="" disabled selected>Vyberte…</option>
-                <option value="obec I. typu">Obec I. typu</option>
-                <option value="organizační složka obce">Organizační složka obce</option>
-                <option value="příspěvková nebo jiná organizace obce">Příspěvková / jiná organizace zřízená obcí</option>
-                <option value="nevím">Nevím</option>
-                <option value="jiné">Jiné</option>
-              </select>
-              <p class="mt-1 hidden text-sm text-accent" data-error-for="subjectType"></p>
-            </div>
-
-            <div>
-              <label class="field-label" for="role">Vaše role <span class="text-accent">*</span></label>
-              <select class="field-input" id="role" name="role" required aria-required="true">
-                <option value="" disabled selected>Vyberte…</option>
-                <option value="starosta/ka">Starosta/ka</option>
-                <option value="účetní, administrativa">Účetní, administrativa</option>
-                <option value="ředitel/ka organizace">Ředitel/ka organizace</option>
-                <option value="jiné">Jiné</option>
-              </select>
-              <p class="mt-1 hidden text-sm text-accent" data-error-for="role"></p>
-            </div>
-          </div>
-
-          <!-- GDPR souhlas — povinný -->
-          <div class="flex items-start gap-3">
-            <input class="mt-1 h-5 w-5 shrink-0 rounded border-slate-300 text-brand focus:ring-brand" type="checkbox" id="gdpr" name="gdpr" required aria-required="true" />
-            <label class="text-sm text-slate-600" for="gdpr">
-              <!-- TODO: doplnit přesné znění souhlasu + odkaz na zásady zpracování osobních údajů Scio -->
-              Souhlasím se zpracováním osobních údajů za účelem informování o produktu Spisovka.
-              <a href="#" class="font-semibold text-brand underline hover:text-brand-dark" data-todo="gdpr-odkaz">Zásady zpracování osobních údajů</a>. <span class="text-accent">*</span>
-            </label>
-          </div>
-          <p class="-mt-2 hidden text-sm text-accent" data-error-for="gdpr"></p>
-
-          <!-- Chybová hláška odeslání -->
-          <div id="form-error" class="hidden rounded-xl border border-accent bg-accent-soft p-4 text-sm text-slate-800" role="alert">
-            Odeslání se teď nepovedlo. Zkuste to prosím znovu, nebo nám napište na
-            <a class="font-semibold text-brand underline" href="#" data-todo="kontaktni-email">kontaktní e-mail</a>.
-          </div>
-
-          <button id="submit-btn" class="btn-primary w-full sm:w-auto" type="submit">
-            <span data-submit-label>Odeslat zájem</span>
-            <svg data-submit-spinner class="hidden h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" class="opacity-25"/><path d="M12 2a10 10 0 0110 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>
-          </button>
-
-          <p class="text-sm text-slate-500">Kontakt použijeme jen k tomu, abychom vás informovali o Spisovce.</p>
-        </form>
+        <p class="mt-4 text-sm text-slate-500">
+          Kontakt použijeme jen k tomu, abychom vás informovali o Spisovce. Více v
+          <a href="zasady-zpracovani.html" target="_blank" rel="noopener" class="font-semibold text-brand underline hover:text-brand-dark">Zásadách zpracování osobních údajů</a>.
+        </p>
       </div>
     </section>
 
-    <!-- ================= 10. FAQ ================= -->
+    <!-- ================= 9. FAQ ================= -->
     <section id="faq" class="py-16 sm:py-20">
       <div class="container-tight max-w-3xl">
         <h2 class="text-2xl font-extrabold sm:text-3xl">Časté dotazy</h2>
@@ -478,7 +446,7 @@
               Jak poznám, že jsme obec I. typu?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Obec I. typu vykonává přenesenou působnost jen v základním rozsahu: nemá pověřený obecní úřad, nemá stavební úřad ani matriční úřad. Takových obcí je v ČR většina. Pokud stavební nebo matriční úřad máte, spadáte mezi určené původce a potřebujete atestovaný systém. Když si nejste jistí, napište nám, pomůžeme vám se zařadit.</p>
+            <p class="mt-3 text-slate-600">Většina malých obcí jsou obce I. typu. Poznáte to tak, že nemáte stavební ani matriční úřad. Pokud je máte, platí pro vás přísnější pravidla velkých úřadů a Spisovka pro vás zatím není určená. Nejste si jistí? <a href="mailto:spisovka@scio.cz" class="font-semibold text-brand underline hover:text-brand-dark">Napište nám</a>, pomůžeme vám se zařadit.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
@@ -486,7 +454,7 @@
               Musí naše obec vést spisovou službu elektronicky?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Ano. Spisovou službu vést musíte dlouhodobě, ale od 1. ledna 2027 ji musí všichni veřejnoprávní původci vést elektronicky, v systému podle Národního standardu. Možnost volby papír, nebo elektronicky končí 31. prosince 2026 a týká se to i obcí I. typu a jejich organizací. Co nepotřebujete, je drahý atestovaný systém jako velké úřady. A když na elektronické vedení teprve přecházíte, provedeme vás tím.</p>
+            <p class="mt-3 text-slate-600">Ano. Vést ji musíte dlouhodobě, ale od 1. ledna 2027 elektronicky, v systému podle Národního standardu. Možnost volby papír, nebo elektronicky končí 31. prosince 2026 a týká se i malých obcí a jejich organizací. A když na elektronické vedení teprve přecházíte, provedeme vás tím.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
@@ -494,7 +462,7 @@
               Musíme mít atestovaný systém?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Ne. Obce I. typu, jejich organizační složky a jimi zřizované organizace mají z atestace výjimku. Systém ale musí splňovat zákon, vyhlášku i Národní standard. Spisovku stavíme tak, aby je splnila.</p>
+            <p class="mt-3 text-slate-600">Ne. Atestace je oficiální certifikace systému a potřebují ji jen velké úřady, třeba obce s rozšířenou působností a kraje. Malé obce a jejich organizace ji nepotřebují. Systém ale musí splňovat zákon i Národní standard, což Spisovka plní.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
@@ -502,31 +470,15 @@
               Týká se to i naší knihovny, muzea nebo technických služeb?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Ano. Organizace zřízená obcí je veřejnoprávní původce a spisovou službu vést musí. Pokud vás zřídila obec I. typu, máte stejnou výjimku z atestace jako ona.</p>
+            <p class="mt-3 text-slate-600">Ano. Organizace zřízená obcí má stejnou povinnost vést spisovou službu jako obec sama. Pokud vás zřídila obec I. typu, platí pro vás stejná pravidla jako pro ni.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
             <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-slate-900">
-              Už máme spisovku v KEO nebo Munis. Musíme měnit?
+              Odkdy můžeme Spisovku používat?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Pokud vám stávající řešení vyhovuje a od roku 2027 splní Národní standard, měnit nemusíte. Spisovka je pro vás, když jedete na papíře, váš systém je složitý nebo drahý, nebo jste organizace, na kterou se dnes nikdo nezaměřuje. S přechodem pomůžeme a o data nepřijdete.</p>
-          </details>
-
-          <details class="group p-5 sm:p-6">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-slate-900">
-              Existují i bezplatná řešení. Čím se lišíte?
-              <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <p class="mt-3 text-slate-600">I když narazíte na levný nebo dotovaný software, je to jen část řešení. Metodiku, spisový a skartační plán, zavedení i provoz si u něj vyřešíte sami. U nás ne. Provedeme vás přechodem, dáme vzorové dokumenty a podporu a postaráme se i o věci jako skartační řízení s archivem. Rozdíl není v ceně, ale v tom, kolik práce zůstane na vás.</p>
-          </details>
-
-          <details class="group p-5 sm:p-6">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-slate-900">
-              Kdy to bude hotové?
-              <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <p class="mt-3 text-slate-600">Termín 1. 1. 2027 je váš zákonný termín pro elektronické vedení. Spisovku stavíme a ladíme na vlastních školách Scio a pro obce a jejich organizace ji chceme stihnout na stejný termín. Ozvěte se co nejdřív, domluvíme postup, který vám sedí, a získáte náskok.</p>
+            <p class="mt-3 text-slate-600">Zavedení a školení proběhne během podzimu 2026. Od ledna 2027 jedete ostrý provoz, takže v den, kdy vám povinnost vznikne, už v ní umíte pracovat.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
@@ -534,7 +486,7 @@
               Kolik to bude stát?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">10 000 Kč ročně za subjekt, stejně jako pro školy. V ceně je zavedení, metodika i podpora, žádné skryté poplatky. U větších nebo specifických potřeb cenu upřesníme podle rozsahu. Teď nic neplatíte, stačí dát vědět, že máte zájem.</p>
+            <p class="mt-3 text-slate-600"><span data-config-price>10&nbsp;000&nbsp;Kč</span> ročně za subjekt. V ceně je zavedení, metodika i podpora, žádné skryté poplatky. Teď nic neplatíte, stačí dát vědět, že máte zájem.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
@@ -550,23 +502,7 @@
               Co když k nám přijde kontrola?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Kontrolu spisové služby u obcí vykonává příslušný státní oblastní archiv. Spisovka vede kompletní auditní stopu: u každého dokumentu je vidět, kdo s ním kdy co udělal, a evidence, lhůty i skartační řízení odpovídají Národnímu standardu.</p>
-          </details>
-
-          <details class="group p-5 sm:p-6">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-slate-900">
-              Scio známe ze školství. Proč od vás spisovou službu pro obce?
-              <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <p class="mt-3 text-slate-600">Protože je to stejná povinnost a stejné jádro. Spisovku stavíme nejdřív pro 28 vlastních škol Scio, které mají stejnou výjimku z atestace jako obce I. typu. Ověřené řešení pak nabízíme i obcím a jejich organizacím.</p>
-          </details>
-
-          <details class="group p-5 sm:p-6">
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-bold text-slate-900">
-              Co s naší dosavadní evidencí?
-              <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </summary>
-            <p class="mt-3 text-slate-600">Nezahodíte ji. Stávající podací deník uzavřete ke konci roku 2026 a od ledna evidujete nové dokumenty ve Spisovce. Převod a postup vám popíše návod při zavedení.</p>
+            <p class="mt-3 text-slate-600">Kontrolu spisové služby u obcí provádí příslušný státní oblastní archiv. Spisovka u každého dokumentu vede záznam, kdo s ním kdy co udělal (auditní stopu), a evidence, lhůty i skartace odpovídají Národnímu standardu.</p>
           </details>
 
           <details class="group p-5 sm:p-6">
@@ -582,7 +518,7 @@
               Co máme dělat teď?
               <svg class="shrink-0 text-slate-400 transition group-open:rotate-180" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </summary>
-            <p class="mt-3 text-slate-600">Nechte nám kontakt. Zbytkem vás provedeme.</p>
+            <p class="mt-3 text-slate-600"><a href="#formular" class="font-semibold text-brand underline hover:text-brand-dark">Nechte nám kontakt</a>. Zbytkem vás provedeme.</p>
           </details>
 
         </div>
@@ -595,30 +531,25 @@
 
   </main>
 
-  <!-- ================= 11. PATIČKA ================= -->
+  <!-- ================= 10. PATIČKA ================= -->
   <footer class="border-t border-slate-200 bg-white py-12">
     <div class="container-wide flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
       <div>
         <div class="flex items-center gap-2.5">
-          <svg width="26" height="26" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-            <rect width="32" height="32" rx="8" fill="#0075ff" />
-            <path d="M9 11.5h11M9 16h14M9 20.5h8" stroke="#fff" stroke-width="2.2" stroke-linecap="round" />
-          </svg>
-          <span class="text-base font-extrabold text-slate-900">Spisovka</span>
+          <span class="text-lg font-extrabold tracking-tight text-slate-900">Spis<span aria-hidden="true" style="display:inline-block;width:.45em;height:.45em;border-radius:9999px;background:var(--color-brand);vertical-align:middle;margin:0 .05em 0 .07em;"></span>vka</span>
+          <span aria-hidden="true" style="width:1px;height:18px;background:var(--color-slate-200);"></span>
           <span class="text-sm text-slate-400">od Scio</span>
         </div>
         <p class="mt-3 max-w-md text-sm text-slate-500">
-          Elektronická spisová služba pro obce I. typu a jejich organizace. Hotové řešení s metodikou a podporou, ne jen software.
+          Elektronická spisová služba pro obce I. typu a jejich organizace. Zavedení během podzimu 2026, ostrý provoz od 1.&nbsp;1.&nbsp;2027.
         </p>
       </div>
       <nav class="flex flex-col gap-2 text-sm" aria-label="Patička">
-        <!-- TODO: doplnit odkaz na verzi pro školy po nasazení domény -->
-        <a class="font-semibold text-slate-600 hover:text-brand" href="#" data-todo="odkaz-skoly">Jste škola? Máme verzi pro vás</a>
-        <!-- TODO: doplnit kontaktní e-mail (zatím neurčen) -->
-        <a class="font-semibold text-slate-600 hover:text-brand" href="#" data-todo="kontaktni-email">Kontakt (TODO)</a>
+        <span class="font-semibold text-slate-600">Kontakt: <a class="hover:text-brand underline" href="mailto:spisovka@scio.cz">spisovka@scio.cz</a></span>
+        <!-- Odkaz na sesterskou verzi pro školy. TODO: potvrdit finální URL školní verze. -->
+        <a class="font-semibold text-slate-600 hover:text-brand" href="https://spisovka.scio.cz/">Jste škola? Máme verzi pro vás</a>
         <a class="font-semibold text-slate-600 hover:text-brand" href="https://www.scio.cz" target="_blank" rel="noopener">scio.cz</a>
-        <!-- TODO: odkaz na zásady zpracování osobních údajů Scio -->
-        <a class="font-semibold text-slate-600 hover:text-brand" href="#" data-todo="gdpr-odkaz">Zásady zpracování osobních údajů</a>
+        <a class="font-semibold text-slate-600 hover:text-brand" href="zasady-zpracovani.html">Zásady zpracování osobních údajů</a>
       </nav>
     </div>
     <div class="container-wide mt-8 border-t border-slate-100 pt-6 text-sm text-slate-400">
@@ -628,6 +559,5 @@
 
   <script src="config.js"></script>
   <script src="js/main.js" defer></script>
-  <script src="js/form.js" defer></script>
 </body>
 </html>
